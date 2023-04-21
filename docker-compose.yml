@@ -1,0 +1,40 @@
+# Please refer https://aka.ms/HTTPSinContainer on how to setup an https developer certificate for your ASP.NET Core service.
+
+version: '3.4'
+
+services:
+  backend:
+    container_name: 'backend'
+    image: backend
+    build:
+      context: ./ "your file path"
+      dockerfile: Dockerfile
+    environment:
+        - ConnectionStrings__DefaultConnection=User ID=UserId;Password=your Password;Server=yoursername.postgres.database.azure.com;Port=5432;Database=your_database_name; Integrated Security=true;Pooling=true;
+    ports:
+      - 5131:5131
+   
+  frontend:
+    container_name: 'frontend'
+    image: frontend 
+    build:
+      context: ./frontend 
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    depends_on:
+      - backend
+
+  # database:
+  #   container_name: 'database'
+  #   image: postgres
+  #   restart: always
+  #   environment:
+  #     POSTGRES_PASSWORD: Oyin090577!
+  #     POSTGRES_DB: backend
+  #   ports:
+  #     - 5432:5432
+networks:
+  default: 
+    driver: bridge
+    

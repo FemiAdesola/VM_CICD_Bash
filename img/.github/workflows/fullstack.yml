@@ -1,0 +1,31 @@
+name: Fullstack Project
+on: [push]
+jobs:
+    Backend:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: BackendItem/Backend
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: install .net sdk
+                uses: actions/setup-dotnet@v3
+                with:
+                    dotnet-version: 7.0.x
+            -   name: install all dependencies
+                run: dotnet restore
+            -   name: build the project
+                run: dotnet build
+    Frontend:
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: frontend
+        steps:
+            -   uses: actions/checkout@v3
+            -   name: install all dependencies 🔧
+                run: npm install
+            -   name: build the project
+                run: npm run build
+                env:
+                    CI: false
